@@ -1,0 +1,19 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# Node
+node_modules/
+*.log
+
+# Local host state — never the plugin manifests, which are the product
+.claude/settings.local.json
+.codex/
+
+# A ledger checked into this repo by mistake is never the product
+docs/cairn/

@@ -1,0 +1,33 @@
+{
+  "name": "@connorbritain/cairn",
+  "version": "0.0.0",
+  "description": "A decision and prediction ledger for coding agents: pre-registration, a fresh-context adversary, calibration scoring and a tunable Socratic coach. Plain files you own; scripts count, the model judges.",
+  "type": "module",
+  "private": false,
+  "author": "Connor England",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ConnorBritain/cairn.git"
+  },
+  "homepage": "https://github.com/ConnorBritain/cairn#readme",
+  "engines": {
+    "node": ">=18.15"
+  },
+  "bin": {
+    "cairn": "tools/cli.mjs"
+  },
+  "files": [
+    "tools/",
+    "agents/",
+    "skills/",
+    "hooks/",
+    "README.md",
+    "DESIGN.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "check": "node tools/check.mjs",
+    "test": "node tools/check.mjs"
+  }
+}
