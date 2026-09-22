@@ -11,7 +11,7 @@ and when `Last version:` above disagrees with `package.json`.
 - [x] 03 gates — `tools/gates.mjs`, `tests/gates.mjs`, wired into `ledger.mjs`
 - [x] 04 score — `tools/score.mjs`, `tools/lib/score-core.mjs`, `tests/fixtures/`, `tests/score.mjs`
 - [x] 05 debt — `tools/debt.mjs`, `tests/debt.mjs`
-- [ ] 06 digest — `tools/digest.mjs`, `tests/digest.mjs`
+- [x] 06 digest — `tools/digest.mjs`, `tests/digest.mjs`
 - [ ] 07 capture — `skills/cairn/`, `agents/cairn-adversary.md`, `skills/cairn/references/bluntness.md`
 - [ ] 08 resolve-review — `skills/cairn-resolve/`, `skills/cairn-review/`, `agents/cairn-reviewer.md`, `ledger.mjs review`
 - [ ] 09 instrument — `tools/settings.mjs`, `hooks/`, `skills/cairn-score/`, `skills/cairn-tune/`, `tools/export.mjs`, tests

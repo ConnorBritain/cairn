@@ -169,7 +169,7 @@ includes that file by reference and nothing else about tone.
 - **Storage.** Reads only.
 - **Acceptance.** Digest contains every id it cites and no prose beyond labels. A
   ledger with no review yet produces a "first review" digest covering everything.
-- **Status.** planned
+- **Status.** done
 - **Spec.** [06-digest.md](roadmap/06-digest.md)
 
 ### 07 · capture — `/cairn`, the adversary, the bluntness reference

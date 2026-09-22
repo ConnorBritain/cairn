@@ -43,4 +43,4 @@ The markdown is what the review skill pastes into the reviewer's prompt.
 
 ## Status
 
-planned
+done
