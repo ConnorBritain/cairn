@@ -10,7 +10,7 @@ const TOOLS = {
   digest: () => import("./digest.mjs"),
 };
 // Ledger verbs are reachable without the "ledger" prefix.
-const LEDGER_VERBS = ["add", "resolve", "release", "reflect", "list", "show", "related"];
+const LEDGER_VERBS = ["add", "resolve", "release", "reflect", "list", "show", "related", "review"];
 
 const USAGE = `Usage: cairn <command> [args]
 Commands:

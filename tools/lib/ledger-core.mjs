@@ -1,9 +1,9 @@
 // Ledger operations as pure functions over the event array. Each mutating function
 // returns the event to append; the CLI appends it. Nothing here touches disk.
 import { CairnError, invalid } from "./errors.mjs";
-import { canAdd, canRelease } from "./gates-core.mjs";
-import { EVENT_LETTER, OUTCOMES, STAKE, brier, buildEntry, newId, processOf } from "./schema.mjs";
-import { annotate, annotateAll, indexEvents, isOpen, statusOf } from "./status.mjs";
+import { canAdd, canCloseReview, canRelease } from "./gates-core.mjs";
+import { DOMAIN_RE, EVENT_LETTER, FORCED_CHOICES, ID_RE, OUTCOMES, STAKE, brier, buildEntry, newId, processOf } from "./schema.mjs";
+import { annotate, annotateAll, indexEvents, isOpen, lastReview, statusOf } from "./status.mjs";
 
 // The gates are the rules; the ledger asks them before every write. There is no --force.
 const gates = { canAdd, canRelease };
@@ -73,6 +73,51 @@ export function reflectEntry(events, { id, text, ts }) {
   requireEntry(index, id);
   if (!text || !text.trim()) throw invalid("reflection text required");
   return { event: "reflection", id: newId(EVENT_LETTER.reflection, ts), ts, entry: id, text: text.trim() };
+}
+
+/**
+ * Close a review. The gate decides; the event records the period, the forced choice
+ * made for each item, the resolutions inside the period, and the stated priorities
+ * that drift is measured against until the next review.
+ */
+export function reviewEntry(events, { review, ts, settings }) {
+  if (!review || typeof review !== "object") throw invalid("review: object required");
+  const index = indexEvents(events);
+  const previous = lastReview(index);
+  const firstEntry = index.order.length ? index.entries.get(index.order[0]) : null;
+  const from = review.period?.from || previous?.ts || firstEntry?.ts || ts;
+  const to = review.period?.to || ts;
+  if (Date.parse(to) < Date.parse(from)) throw invalid("review.period: to is before from");
+
+  const choices = Array.isArray(review.choices) ? review.choices : [];
+  for (const c of choices) {
+    if (!c || !ID_RE.test(c.entry || "")) throw invalid("review.choices[].entry: entry id required");
+    if (!FORCED_CHOICES.includes(c.action)) throw invalid(`review.choices[].action: one of ${FORCED_CHOICES.join(", ")}`);
+    if (!ID_RE.test(c.result || "")) throw invalid("review.choices[].result: id of the superseding entry or the release required");
+  }
+  const priorities = Array.isArray(review.priorities) ? review.priorities : [];
+  if (!priorities.length) throw invalid("review.priorities: at least one { domain, weight } required; drift is measured against them");
+  for (const p of priorities) {
+    if (!p || !DOMAIN_RE.test(p.domain || "")) throw invalid(`review.priorities[].domain: invalid (${p?.domain})`);
+    if (!Number.isInteger(p.weight) || p.weight < 0) throw invalid(`review.priorities[].weight: non-negative integer (${p?.domain})`);
+  }
+  if (!priorities.some((p) => p.weight > 0)) throw invalid("review.priorities: at least one weight must be above zero");
+
+  const verdict = canCloseReview({ period: { from, to }, choices }, events, ts, settings);
+  if (!verdict.allowed) throw new CairnError("gate", verdict.reasons.join("; "), verdict);
+
+  const inPeriod = (e) => (previous ? Date.parse(e.ts) > Date.parse(from) : Date.parse(e.ts) >= Date.parse(from)) && Date.parse(e.ts) <= Date.parse(to);
+  const resolved = events.filter((e) => e.event === "resolution" && inPeriod(e)).map((e) => e.id);
+  return {
+    event: "review",
+    id: newId(EVENT_LETTER.review, ts),
+    ts,
+    period: { from, to },
+    choices: choices.map((c) => ({ entry: c.entry, action: c.action, result: c.result })),
+    priorities: priorities.map((p) => ({ domain: p.domain, weight: p.weight })),
+    resolved,
+    notes: typeof review.notes === "string" && review.notes.trim() ? review.notes.trim() : null,
+  };
 }
 
 export function listEntries(events, { status, kind, domain, now }) {

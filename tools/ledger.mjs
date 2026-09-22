@@ -5,7 +5,8 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { parseArgs } from "./lib/args.mjs";
 import { CairnError, usage } from "./lib/errors.mjs";
-import { addEntry, listEntries, reflectEntry, relatedEntries, releaseEntry, resolveEntry, showEntry } from "./lib/ledger-core.mjs";
+import { addEntry, listEntries, reflectEntry, relatedEntries, releaseEntry, resolveEntry, reviewEntry, showEntry } from "./lib/ledger-core.mjs";
+import { withDefaults } from "./lib/defaults.mjs";
 import { KINDS } from "./lib/schema.mjs";
 import { STATUSES } from "./lib/status.mjs";
 import { appendEvent, readEvents, resolveStateDir } from "./lib/store.mjs";
@@ -23,6 +24,9 @@ export const USAGE = `Usage:
   cairn ledger list [--status ${STATUSES.join("|")}] [--kind k] [--domain d] [--json]
   cairn ledger show <id> [--json]
   cairn ledger related [--domain d]… [--kind k] [--text …] [--limit 5] [--json]
+  cairn ledger review --file review.json [--json]
+        review.json: { "choices": [{ "entry", "action": "recommit|adjust|release", "result" }],
+                       "priorities": [{ "domain", "weight" }], "notes"?, "period"?: { "from", "to" } }
 Common: --now <ISO> (or CAIRN_NOW) fixes the clock; CAIRN_HOME sets the state directory.`;
 
 export function main(argv, io = {}) {
@@ -105,6 +109,17 @@ export function main(argv, io = {}) {
         if (!Number.isInteger(limit) || limit < 0) throw usage("--limit must be a non-negative integer");
         const rows = relatedEntries(readEvents(dir), { domains: flags.domain, kind: flags.kind, text: flags.text, limit, now });
         print(rows.map(line).join("\n"), rows);
+        return 0;
+      }
+      case "review": {
+        if (!flags.file) throw usage("review --file review.json required");
+        const review = JSON.parse(readFileSync(String(flags.file), "utf8"));
+        const events = readEvents(dir);
+        const event = reviewEntry(events, { review, ts: now, settings: withDefaults(io.settings) });
+        appendEvent(dir, event);
+        const cadence = withDefaults(io.settings).review_cadence_days;
+        const next = new Date(Date.parse(now) + cadence * 86_400_000).toISOString().slice(0, 10);
+        print(`${event.id}  review recorded: ${event.choices.length} forced choice${event.choices.length === 1 ? "" : "s"}, ${event.resolved.length} resolved in period, priorities ${event.priorities.map((p) => `${p.domain} ${p.weight}`).join(", ")} · next review by ${next}`, { ...event, next_review_by: next });
         return 0;
       }
       case undefined:

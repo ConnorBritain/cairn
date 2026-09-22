@@ -209,7 +209,7 @@ includes that file by reference and nothing else about tone.
   choice. Recommit and adjust produce new entries with `supersedes`. The review event
   carries priorities that `score.mjs` drift then reads. Reviewer prompt receives the
   digest and nothing else.
-- **Status.** planned
+- **Status.** done
 - **Spec.** [08-resolve-review.md](roadmap/08-resolve-review.md)
 
 ### 09 · instrument — settings, SessionStart hook, `/cairn-score`, `/cairn-tune`, export
