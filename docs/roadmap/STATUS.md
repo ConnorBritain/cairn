@@ -8,7 +8,7 @@ and when `Last version:` above disagrees with `package.json`.
 
 - [x] 01 plan — ROADMAP, specs, STATUS, CONTRIBUTING resume protocol, check scripts
 - [x] 02 schema-ledger — `tools/lib/schema.mjs`, `tools/lib/store.mjs`, `tools/ledger.mjs`, `tests/ledger.mjs`
-- [ ] 03 gates — `tools/gates.mjs`, `tests/gates.mjs`, wired into `ledger.mjs`
+- [x] 03 gates — `tools/gates.mjs`, `tests/gates.mjs`, wired into `ledger.mjs`
 - [ ] 04 score — `tools/score.mjs`, `tools/lib/score-core.mjs`, `tests/fixtures/`, `tests/score.mjs`
 - [ ] 05 debt — `tools/debt.mjs`, `tests/debt.mjs`
 - [ ] 06 digest — `tools/digest.mjs`, `tests/digest.mjs`

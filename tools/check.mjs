@@ -17,7 +17,7 @@ if (args.length) {
 const checks = [["tools/check-status.mjs"]];
 if (existsSync(join(root, "tools", "check-packaging.mjs"))) checks.push(["tools/check-packaging.mjs"]);
 if (existsSync(join(root, "tests"))) {
-  for (const file of readdirSync(join(root, "tests")).filter(f => f.endsWith(".mjs")).sort()) {
+  for (const file of readdirSync(join(root, "tests")).filter(f => f.endsWith(".mjs") && f !== "harness.mjs").sort()) {
     checks.push([`tests/${file}`]);
   }
 }

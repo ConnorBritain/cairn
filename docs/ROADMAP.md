@@ -119,7 +119,7 @@ includes that file by reference and nothing else about tone.
 - **Acceptance.** Full-tier add refused while any full-tier entry is overdue, quick
   allowed. Release without reason refused. Review with an unaddressed open item
   refused, with the item ids. All three surfaces (function, CLI, ledger.mjs) agree.
-- **Status.** planned
+- **Status.** done
 - **Spec.** [03-gates.md](roadmap/03-gates.md)
 
 ### 04 · score — the numbers

@@ -63,4 +63,4 @@ CLI: `cairn gates check add --tier full`, `cairn gates check release <id> --reas
 
 ## Status
 
-planned
+done

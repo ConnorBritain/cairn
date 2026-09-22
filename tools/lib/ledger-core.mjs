@@ -1,17 +1,12 @@
 // Ledger operations as pure functions over the event array. Each mutating function
 // returns the event to append; the CLI appends it. Nothing here touches disk.
 import { CairnError, invalid } from "./errors.mjs";
+import { canAdd, canRelease } from "./gates-core.mjs";
 import { EVENT_LETTER, OUTCOMES, STAKE, brier, buildEntry, newId, processOf } from "./schema.mjs";
 import { annotate, annotateAll, indexEvents, isOpen, statusOf } from "./status.mjs";
 
-// Gate stubs. Item 03 replaces these with gates-core; until then only the schema rules
-// (release needs a reason) apply.
-const gates = {
-  canAdd: () => ({ allowed: true, reasons: [], blocking: [] }),
-  canRelease: (entry, reason) => (reason && reason.trim()
-    ? { allowed: true, reasons: [], blocking: [] }
-    : { allowed: false, reasons: ["release requires a stated reason"], blocking: [entry.id] }),
-};
+// The gates are the rules; the ledger asks them before every write. There is no --force.
+const gates = { canAdd, canRelease };
 
 function requireEntry(index, id) {
   const entry = index.entries.get(id);
@@ -68,7 +63,7 @@ export function resolveEntry(events, { id, outcome, stakeHonored, reflection, ts
 export function releaseEntry(events, { id, reason, ts }) {
   const index = indexEvents(events);
   const entry = requireOpen(index, id, ts, "release");
-  const verdict = gates.canRelease(entry, reason, events);
+  const verdict = gates.canRelease(entry, reason, events, ts);
   if (!verdict.allowed) throw new CairnError("gate", verdict.reasons.join("; "), verdict);
   return { event: "release", id: newId(EVENT_LETTER.release, ts), ts, entry: id, reason: reason.trim() };
 }

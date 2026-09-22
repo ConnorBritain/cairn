@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 
 const TOOLS = {
   ledger: () => import("./ledger.mjs"),
+  gates: () => import("./gates.mjs"),
 };
 // Ledger verbs are reachable without the "ledger" prefix.
 const LEDGER_VERBS = ["add", "resolve", "release", "reflect", "list", "show", "related"];
@@ -12,6 +13,7 @@ const USAGE = `Usage: cairn <command> [args]
 Commands:
   ledger <add|resolve|release|reflect|list|show|related> …   the record
   ${LEDGER_VERBS.join(" | ")}   shortcuts for the ledger verbs
+  gates <check add|release|review | scope> …                  the rules, without acting
   help
 Run "cairn <command> help" for that command's usage.`;
 
