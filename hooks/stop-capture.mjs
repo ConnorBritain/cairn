@@ -27,6 +27,7 @@ try {
   const state = pending.loadPending(dir);
   const from = state.cursors.get(transcript) ?? 0;
   const lines = readFileSync(transcript, "utf8").split("\n");
+  while (lines.length && lines[lines.length - 1].trim() === "") lines.pop();   // a trailing newline is not a line
   if (lines.length <= from) done();
   const known = new Set(state.candidates.map((c) => c.text.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim()));
   const { candidates, cursor } = core.scanTranscript(lines, { from, known });
