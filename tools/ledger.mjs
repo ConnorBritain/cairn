@@ -15,7 +15,7 @@ export const USAGE = `Usage:
   cairn ledger add --kind <prediction|choice|commitment|note> [--tier quick|full]
         --text … [--confidence N] --domain d [--domain d2] [--criterion …]
         [--resolve-by|--review-by|--due-by YYYY-MM-DD] [--chosen … --over …]
-        [--if-then …] [--reasoning …] [--adversary-file path.json]
+        [--if-then …] [--reasoning …] [--adversary-file path.json | --adversary-json '{…}']
         [--related id]… [--supersedes id] [--json]
   cairn ledger resolve <id> --outcome <label> [--stake-honored yes|no|n/a] [--reflection …] [--json]
   cairn ledger release <id> --reason … [--json]
@@ -41,7 +41,9 @@ export function main(argv, io = {}) {
         if (flags.id) throw usage("entries are immutable; add a new entry with --supersedes <id>");
         if (!flags.kind) throw usage(`--kind required (${KINDS.join(", ")})`);
         let adversary;
+        if (flags.adversaryFile && flags.adversaryJson) throw usage("use --adversary-file or --adversary-json, not both");
         if (flags.adversaryFile) adversary = JSON.parse(readFileSync(String(flags.adversaryFile), "utf8"));
+        if (flags.adversaryJson) adversary = JSON.parse(String(flags.adversaryJson));
         const input = {
           kind: flags.kind, tier: flags.tier, text: flags.text, confidence: flags.confidence,
           domains: flags.domain, criterion: flags.criterion,

@@ -189,7 +189,7 @@ includes that file by reference and nothing else about tone.
   adversary and marks the entry quick even if reasoning is present (no adversary pass,
   therefore not full). Adversary prompt contains no instruction about tone other than
   the reference file.
-- **Status.** planned
+- **Status.** done
 - **Spec.** [07-capture.md](roadmap/07-capture.md)
 
 ### 08 · resolve-review — `/cairn-resolve`, `/cairn-review`, the reviewer
