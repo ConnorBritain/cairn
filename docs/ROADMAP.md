@@ -140,7 +140,7 @@ includes that file by reference and nothing else about tone.
   overconfident fixture shows hit rate below confidence in the top buckets; the hedging
   fixture shows low informativeness; the high-release fixture shows release rate above
   the others. Every statistic under min n reports `insufficient`.
-- **Status.** planned
+- **Status.** done
 - **Spec.** [04-score.md](roadmap/04-score.md)
 
 ### 05 · debt — what is due

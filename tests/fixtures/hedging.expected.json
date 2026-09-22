@@ -1,0 +1,29 @@
+{
+  "now": "2026-09-22T12:00:00Z",
+  "n": {
+    "entries": 60,
+    "scored": 60,
+    "resolved": 60,
+    "released": 0,
+    "overdue": 0
+  },
+  "brier_overall": 0.2477,
+  "by_domain": {
+    "work": {
+      "n": 60,
+      "brier": 0.2477
+    }
+  },
+  "calibration": {
+    "50–59": {
+      "n": 60,
+      "mean_confidence": 54,
+      "hit_rate": 0.5333
+    }
+  },
+  "informativeness": 0.08,
+  "release_rate": 0,
+  "process_mean": 0.5555,
+  "drift_total_variation": null,
+  "drift_n": 0
+}

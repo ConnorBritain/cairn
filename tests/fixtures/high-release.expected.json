@@ -1,0 +1,43 @@
+{
+  "now": "2026-09-22T12:00:00Z",
+  "n": {
+    "entries": 40,
+    "scored": 22,
+    "resolved": 22,
+    "released": 18,
+    "overdue": 0
+  },
+  "brier_overall": 0.16,
+  "by_domain": {
+    "home": {
+      "n": 4,
+      "brier": 0.225
+    },
+    "work": {
+      "n": 18,
+      "brier": 0.1456
+    }
+  },
+  "calibration": {
+    "70–79": {
+      "n": 4,
+      "mean_confidence": 70,
+      "hit_rate": 0.5
+    },
+    "90–100": {
+      "n": 15,
+      "mean_confidence": 97.3333,
+      "hit_rate": 0.8667
+    },
+    "80–89": {
+      "n": 3,
+      "mean_confidence": 80,
+      "hit_rate": 0.6667
+    }
+  },
+  "informativeness": 0.8,
+  "release_rate": 0.45,
+  "process_mean": 0.6666,
+  "drift_total_variation": 0.2889,
+  "drift_n": 9
+}
