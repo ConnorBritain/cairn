@@ -10,6 +10,7 @@ const TOOLS = {
   digest: () => import("./digest.mjs"),
   settings: () => import("./settings.mjs"),
   export: () => import("./export.mjs"),
+  pending: () => import("./pending.mjs"),
 };
 // Ledger verbs are reachable without the "ledger" prefix.
 const LEDGER_VERBS = ["add", "resolve", "release", "reflect", "list", "show", "related", "review"];
@@ -24,6 +25,7 @@ Commands:
   digest [--json]                                             the review packet
   settings <show | set k=v… | undo | history>                 the dial and the rest, versioned
   export <ledger|scores> --format md|csv [--out path|-]       dumps
+  pending <list | confirm n | discard n>                      Stop-hook candidates (opt-in)
   help
 Run "cairn <command> help" for that command's usage.`;
 

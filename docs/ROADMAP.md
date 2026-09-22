@@ -248,7 +248,7 @@ includes that file by reference and nothing else about tone.
 - **Acceptance.** With the setting off the hook exits without reading the transcript.
   With it on, a transcript containing "I'm going with X" yields one pending candidate
   and zero ledger entries. Witness output contains only what the entry contains.
-- **Status.** planned
+- **Status.** done
 - **Spec.** [10-optional.md](roadmap/10-optional.md)
 
 ### 11 · release — README, packaging check, manifests, 0.1.0

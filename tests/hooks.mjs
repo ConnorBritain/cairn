@@ -20,6 +20,7 @@ check("registers the SessionStart script under the plugin root with a timeout; e
   const cfg = JSON.parse(readFileSync(join(ROOT, "hooks", "hooks.json"), "utf8"));
   const entries = cfg.hooks.SessionStart.flatMap((h) => h.hooks);
   assert.equal(entries.length, 1);
+  assert.deepEqual(Object.keys(cfg.hooks).sort(), ["SessionStart", "Stop"]);
   assert.match(entries[0].command, /^node "\$\{CLAUDE_PLUGIN_ROOT\}\/hooks\/session-start\.mjs"$/);
   assert.ok(entries[0].timeout <= 10);
   for (const group of Object.values(cfg.hooks)) for (const h of group.flatMap((x) => x.hooks)) {
