@@ -57,4 +57,4 @@ the README explains is the point: the numbers earn trust with `n`.
 
 ## Status
 
-planned
+done

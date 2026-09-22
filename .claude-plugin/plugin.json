@@ -1,0 +1,10 @@
+{
+  "name": "cairn",
+  "version": "0.1.0",
+  "description": "A decision and prediction ledger: pre-register predictions, choices and commitments; a fresh-context adversary argues the other side before you commit; scripts compute Brier, calibration, release rate, process score and drift; a Socratic coach reads the numbers back at review and never recommends. Plain Markdown and JSONL in your own directory. No network, no API keys.",
+  "author": { "name": "Connor England", "url": "https://github.com/ConnorBritain" },
+  "repository": "https://github.com/ConnorBritain/cairn",
+  "homepage": "https://github.com/ConnorBritain/cairn",
+  "license": "MIT",
+  "keywords": ["decisions", "predictions", "calibration", "brier", "ledger", "pre-registration", "coach"]
+}

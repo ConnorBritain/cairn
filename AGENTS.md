@@ -24,7 +24,18 @@ unchecked item. The house rules in [`DESIGN.md`](DESIGN.md) override any spec.
 - Tests set `CAIRN_HOME` to a temp directory. Never touch a real `~/.cairn`.
 - STATUS ticks in the same commit as the deliverable. Version bumps need a STATUS change.
 
+## Using Cairn from Codex
+
+- Install: `node install-cairn-codex.mjs` (this checkout as a plugin, the three
+  roles as custom agents); verify with `--check`.
+- Codex runs no SessionStart hook here. Run `node tools/cli.mjs debt` when a
+  session starts; it prints at most two lines and nothing when nothing is due.
+- Skills call the tools by relative path (`tools/cli.mjs`); the roles are the
+  custom agents `cairn-adversary`, `cairn-reviewer`, `cairn-witness`, invoked with
+  only the inputs the skill names.
+
 ## Useful commands
 
 - `node tools/check.mjs`
 - `node tools/check-status.mjs [--staged]`
+- `node tools/cli.mjs help`

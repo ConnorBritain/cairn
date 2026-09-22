@@ -266,7 +266,7 @@ includes that file by reference and nothing else about tone.
   `CAIRN_HOME` and produces a Brier score. `check.mjs` runs every test and the
   packaging check. Version 0.1.0 in `package.json`, both manifests, the marketplace
   entry, CHANGELOG, and STATUS `Last version:`, in one commit.
-- **Status.** planned
+- **Status.** done
 - **Spec.** [11-release.md](roadmap/11-release.md)
 
 ## After 0.1.0

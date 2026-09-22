@@ -1,0 +1,24 @@
+{
+  "name": "cairn",
+  "version": "0.1.0",
+  "description": "A decision and prediction ledger: pre-register predictions, choices and commitments; a fresh-context adversary argues the other side before you commit; scripts compute Brier, calibration, release rate, process score and drift; a Socratic coach reads the numbers back at review and never recommends. Plain Markdown and JSONL in your own directory. No network, no API keys.",
+  "author": { "name": "Connor England", "url": "https://github.com/ConnorBritain" },
+  "repository": "https://github.com/ConnorBritain/cairn",
+  "homepage": "https://github.com/ConnorBritain/cairn",
+  "license": "MIT",
+  "keywords": ["decisions", "predictions", "calibration", "brier", "ledger", "pre-registration", "coach"],
+  "interface": {
+    "displayName": "Cairn",
+    "shortDescription": "A decision and prediction ledger with an adversary, calibration scores and a Socratic coach.",
+    "longDescription": "Capture predictions, choices and commitments with a confidence, a resolvable criterion and a date. At full tier a fresh-context adversary argues the other side before you commit. Dependency-free scripts compute Brier by domain, a calibration curve, informativeness, release rate, process score and drift from your stated priorities, each with its n. The weekly review forces a choice (recommit, adjust, release) on every open item. Roles cite entry ids, never recommend, and never characterize the person. One bluntness dial (0–3) with undo. State is Markdown and JSONL in your own directory; nothing touches the network.",
+    "developerName": "Connor England",
+    "category": "Productivity",
+    "capabilities": ["Interactive"],
+    "websiteURL": "https://github.com/ConnorBritain/cairn",
+    "defaultPrompt": [
+      "I think we ship the billing rewrite before October, 70%",
+      "Review my decision ledger",
+      "How calibrated am I in the work domain?"
+    ]
+  }
+}

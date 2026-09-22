@@ -1,0 +1,17 @@
+{
+  "name": "cairn",
+  "owner": { "name": "Connor England", "url": "https://github.com/ConnorBritain" },
+  "metadata": {
+    "description": "A decision and prediction ledger with pre-registration, a fresh-context adversary, calibration scoring and a tunable Socratic coach."
+  },
+  "plugins": [
+    {
+      "name": "cairn",
+      "source": "./",
+      "version": "0.1.0",
+      "category": "productivity",
+      "tags": ["decisions", "predictions", "calibration", "ledger", "coach"],
+      "description": "Capture predictions, choices and commitments with a confidence and a date; an adversary argues the other side at full tier; scripts score the record (Brier, calibration, release rate, process, drift); the weekly review forces a choice on every open item. Signals about the record, never verdicts about the person. State lives in ~/.cairn or a project's docs/cairn/."
+    }
+  ]
+}
