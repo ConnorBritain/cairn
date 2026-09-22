@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import { parseArgs } from "./lib/args.mjs";
 import { CairnError, usage } from "./lib/errors.mjs";
 import { digest, renderDigest } from "./lib/digest-core.mjs";
+import { loadSettings } from "./lib/settings-store.mjs";
 import { readEvents, resolveStateDir } from "./lib/store.mjs";
 import { nowIso } from "./lib/time.mjs";
 
@@ -21,8 +22,9 @@ export function main(argv, io = {}) {
     const minN = flags.minN === undefined ? undefined : Number(flags.minN);
     if (minN !== undefined && (!Number.isInteger(minN) || minN < 1)) throw usage("--min-n must be a positive integer");
     const now = nowIso(flags.now, env);
-    const events = readEvents(resolveStateDir({ env, cwd: io.cwd }));
-    const d = digest(events, now, io.settings, { minN });
+    const dir = resolveStateDir({ env, cwd: io.cwd });
+    const events = readEvents(dir);
+    const d = digest(events, now, io.settings ?? loadSettings(dir), { minN });
     out(flags.json ? `${JSON.stringify(d, null, 2)}\n` : `${renderDigest(d)}\n`);
     return 0;
   } catch (e) {

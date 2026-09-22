@@ -229,7 +229,7 @@ includes that file by reference and nothing else about tone.
 - **Acceptance.** Hook emits nothing when debt is empty and exactly two lines
   otherwise; never exits non-zero. Undo restores the previous revision as a new one.
   Export round-trips: the CSV row count equals the entry count.
-- **Status.** planned
+- **Status.** done
 - **Spec.** [09-instrument.md](roadmap/09-instrument.md)
 
 ### 10 · optional — Stop-hook capture and the witness

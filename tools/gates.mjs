@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 import { parseArgs } from "./lib/args.mjs";
 import { CairnError, usage } from "./lib/errors.mjs";
 import { canAdd, canCloseReview, canRelease, reviewScope } from "./lib/gates-core.mjs";
+import { loadSettings } from "./lib/settings-store.mjs";
 import { indexEvents } from "./lib/status.mjs";
 import { readEvents, resolveStateDir } from "./lib/store.mjs";
 import { nowIso } from "./lib/time.mjs";
@@ -27,10 +28,11 @@ export function main(argv, io = {}) {
     const now = nowIso(flags.now, env);
     const dir = resolveStateDir({ env, cwd: io.cwd });
     const events = readEvents(dir);
+    const settings = io.settings ?? loadSettings(dir);
 
     if (command === "scope") {
       const { flags: f } = parseArgs([action, ...rest].filter(Boolean), { booleans: ["json"] });
-      const rows = reviewScope(events, nowIso(f.now, env), io.settings);
+      const rows = reviewScope(events, nowIso(f.now, env), settings);
       out(f.json ? `${JSON.stringify(rows, null, 2)}\n` : `${rows.map((r) => `${r.status.padEnd(8)} ${r.id}  ${r.date}  ${r.text}`).join("\n")}\n`);
       return 0;
     }
@@ -53,7 +55,7 @@ export function main(argv, io = {}) {
       }
       case "review": {
         const review = flags.file ? JSON.parse(readFileSync(String(flags.file), "utf8")) : { choices: [] };
-        verdict = canCloseReview(review, events, now, io.settings);
+        verdict = canCloseReview(review, events, now, settings);
         break;
       }
       default:

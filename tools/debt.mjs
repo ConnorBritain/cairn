@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import { parseArgs } from "./lib/args.mjs";
 import { CairnError, usage } from "./lib/errors.mjs";
 import { debt, debtLines } from "./lib/debt-core.mjs";
+import { loadSettings } from "./lib/settings-store.mjs";
 import { readEvents, resolveStateDir } from "./lib/store.mjs";
 import { nowIso } from "./lib/time.mjs";
 
@@ -19,8 +20,9 @@ export function main(argv, io = {}) {
     const { flags, positionals } = parseArgs(argv, { booleans: ["json"] });
     if (positionals.length) throw usage(`unexpected argument ${positionals[0]}\n${USAGE}`);
     const now = nowIso(flags.now, env);
-    const events = readEvents(resolveStateDir({ env, cwd: io.cwd }));
-    const d = debt(events, now, io.settings);
+    const dir = resolveStateDir({ env, cwd: io.cwd });
+    const events = readEvents(dir);
+    const d = debt(events, now, io.settings ?? loadSettings(dir));
     if (flags.json) out(`${JSON.stringify(d, null, 2)}\n`);
     else { const lines = debtLines(d); if (lines.length) out(`${lines.join("\n")}\n`); }
     return 0;
