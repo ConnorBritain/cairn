@@ -22,7 +22,10 @@ stays free of CLIs and model calls.
    prints the cost warning first. Each case gets a fresh `CAIRN_HOME` and
    `CLAUDE_CONFIG_DIR`. Claude Code runs
    `claude -p "<prompt>" --plugin-dir <root> --output-format stream-json --verbose
-   --no-session-persistence --permission-mode dontAsk --allowedTools "Bash(node *),Bash(cairn *),Read,Agent"`.
+   --no-session-persistence --setting-sources "" --permission-mode dontAsk
+   --allowedTools "Bash(node *)" "Bash(cairn *)" Read Agent`. `CLAUDE_CONFIG_DIR` is
+   not overridden (that would drop the CLI's credentials); isolation is the empty
+   setting sources plus a temp `CAIRN_HOME`, as vonnegut's runtime does it.
    Assertions are on the ledger file and the tool-call stream, never on prose:
    | Case | Prompt | Asserts |
    |---|---|---|
@@ -60,4 +63,4 @@ manifests, the marketplace entry, CHANGELOG and STATUS.
 
 ## Status
 
-planned
+done

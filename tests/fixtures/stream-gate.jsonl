@@ -1,0 +1,4 @@
+{"type":"system","subtype":"init","session_id":"s3","tools":["Bash","Read","Agent"]}
+{"type":"assistant","message":{"role":"assistant","content":[{"type":"tool_use","id":"t1","name":"Bash","input":{"command":"node /plugin/tools/cli.mjs gates check add --tier full --kind prediction"}}]}}
+{"type":"user","message":{"role":"user","content":[{"type":"tool_result","tool_use_id":"t1","is_error":true,"content":"full-tier capture blocked: 1 full-tier entry is overdue (p-19991201-aa11). Resolve, release, or capture at quick tier.\nExit code 3"}]}}
+{"type":"result","subtype":"success","is_error":false,"result":"Refused: full-tier capture blocked: 1 full-tier entry is overdue (p-19991201-aa11). Resolve, release, or capture at quick tier."}

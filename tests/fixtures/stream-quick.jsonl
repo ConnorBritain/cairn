@@ -1,0 +1,6 @@
+{"type":"system","subtype":"init","session_id":"s1","tools":["Bash","Read","Agent"]}
+{"type":"assistant","message":{"role":"assistant","content":[{"type":"text","text":"Reading this as a prediction. Quick: required fields present."},{"type":"tool_use","id":"t1","name":"Bash","input":{"command":"node /plugin/tools/cli.mjs gates check add --tier quick --kind prediction"}}]}}
+{"type":"user","message":{"role":"user","content":[{"type":"tool_result","tool_use_id":"t1","content":"allowed\n"}]}}
+{"type":"assistant","message":{"role":"assistant","content":[{"type":"tool_use","id":"t2","name":"Bash","input":{"command":"node /plugin/tools/cli.mjs ledger add --kind prediction --text \"The vendor ships the API\" --confidence 70 --criterion \"endpoint answers\" --domain work --resolve-by 2026-10-01 --json"}}]}}
+{"type":"user","message":{"role":"user","content":[{"type":"tool_result","tool_use_id":"t2","content":[{"type":"text","text":"{\"id\":\"p-20260922-ab12\"}"}]}]}}
+{"type":"result","subtype":"success","is_error":false,"result":"p-20260922-ab12 · due 2026-10-01"}

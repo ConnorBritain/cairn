@@ -1,6 +1,6 @@
 {
   "name": "@connorbritain/cairn",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A decision and prediction ledger for coding agents: pre-registration, a fresh-context adversary, calibration scoring and a tunable Socratic coach. Plain files you own; scripts count, the model judges.",
   "type": "module",
   "private": false,
@@ -22,6 +22,7 @@
     "agents/",
     "skills/",
     "hooks/",
+    "evals/",
     "install-cairn-codex.mjs",
     "README.md",
     "DESIGN.md",

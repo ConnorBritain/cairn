@@ -72,6 +72,34 @@ node tools/check-status.mjs   # just the version/STATUS guard
 node tools/check-status.mjs --staged   # pre-commit form
 ```
 
+## Live verification
+
+`node tools/check.mjs` never invokes a CLI or a model. Three opt-in layers do, each
+against isolated state, none against your real `~/.claude`, `~/.codex` or `~/.cairn`:
+
+```bash
+node tools/check-installation.mjs        # installs into temp config dirs; no model calls
+node tools/live-smoke.mjs --yes          # headless sessions; REAL MODEL CALLS on your account
+claude plugin eval .                     # the evals/ suite; real model calls, judge included
+```
+
+- **Installation** proves discovery: the plugin lists as enabled with no errors, the
+  skills, agents, hooks and tools are in the install path, and the installed CLI and
+  hook run from there. Skips a CLI that is not on PATH.
+- **Smoke** runs `/cairn` for three cases (quick capture, full capture with the
+  adversary, a refused capture under the overdue gate) and asserts on the ledger file
+  and the tool-call stream: which tools ran, in what order, with what result. It
+  never grades prose. `--keep` leaves each case's home and stream on disk;
+  `--only <case>` runs one; `--codex` adds Codex. `tests/live-core.mjs` proves the
+  parser and the assertions on recorded streams, so the logic is checked by
+  `check.mjs` even where the CLIs are not installed.
+- **Evals** (`evals/`) are for `claude plugin eval`: skill fires, adversary spawned
+  before the commit, and a case that asks for a recommendation and must not get one.
+  Every run and every judge is a model call on your plan.
+
+Run the first two before a release and after any change to a skill, a role, or the
+hooks. Record the per-case lines in the PR.
+
 ## Releasing
 
 Bump `package.json`, both plugin manifests, the marketplace entry, CHANGELOG and

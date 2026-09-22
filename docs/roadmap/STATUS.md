@@ -1,6 +1,6 @@
 # Status
 
-Last version: 0.1.0
+Last version: 0.2.0
 
 Take the first unchecked item, in order. Tick it in the same commit that lands it.
 `tools/check-status.mjs` fails when `package.json` bumps without this file changing,
@@ -18,4 +18,4 @@ and when `Last version:` above disagrees with `package.json`.
 - [x] 10 optional — `hooks/stop-capture.mjs`, `tools/pending.mjs`, `agents/cairn-witness.md`, tests
 - [x] 11 release — README walkthrough, `tools/check-packaging.mjs`, manifests, Codex installer, 0.1.0
 - [x] 12 overdue-gate — `settings.overdue_gate=full|strict`, gate, debt line, skills, tests
-- [ ] 13 live-verification — `tools/check-installation.mjs`, `tools/live-smoke.mjs`, `tools/lib/live-core.mjs`, `evals/`, 0.2.0
+- [x] 13 live-verification — `tools/check-installation.mjs`, `tools/live-smoke.mjs`, `tools/lib/live-core.mjs`, `evals/`, 0.2.0

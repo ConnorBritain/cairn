@@ -68,6 +68,18 @@ for (const group of Object.values(hooks)) for (const h of group.flatMap((x) => x
 assert.ok(!existsSync(join(root, ".github", "workflows")), "No GitHub Actions workflows");
 for (const f of pkg.files) assert.ok(existsSync(join(root, f)), `package.json files: ${f}`);
 
+// Eval cases: prompt with frontmatter and at least one grader with a type.
+const evals = readdirSync(join(root, "evals"), { withFileTypes: true }).filter((e) => e.isDirectory()).map((e) => e.name);
+assert.ok(evals.length >= 3, "evals/ has cases");
+for (const name of evals) {
+  frontmatter(read(`evals/${name}/prompt.md`), `evals/${name}/prompt.md`);
+  const graders = readdirSync(join(root, "evals", name, "graders")).filter((f) => f.endsWith(".md"));
+  assert.ok(graders.length >= 1, `evals/${name}: grader`);
+  for (const g of graders) assert.ok(frontmatter(read(`evals/${name}/graders/${g}`), g).type, `evals/${name}/graders/${g}: type`);
+}
+// check.mjs never invokes a CLI or a model.
+assert.doesNotMatch(read("tools/check.mjs"), /check-installation|live-smoke|plugin eval|"claude"|"codex"/);
+
 // Markdown links in maintained docs.
 const documents = [];
 (function visit(dir) {
@@ -87,4 +99,4 @@ for (const file of documents) {
   }
 }
 
-console.log(`check-packaging: cairn ${pkg.version} · ${agents.length} agents · ${skills.length} skills · ${documents.length} documents linked`);
+console.log(`check-packaging: cairn ${pkg.version} · ${agents.length} agents · ${skills.length} skills · ${evals.length} eval cases · ${documents.length} documents linked`);

@@ -156,6 +156,12 @@ Roles have no tools. Their tone comes from one file,
 node tools/check.mjs          # status guard, packaging check, every test
 ```
 
+Live checks are opt-in and separate: `node tools/check-installation.mjs` installs into
+temporary config directories with no model calls; `node tools/live-smoke.mjs --yes`
+runs the capture skill in headless sessions and asserts on the ledger and the tool
+stream; `claude plugin eval .` runs the `evals/` suite. See CONTRIBUTING → Live
+verification.
+
 No dependencies, no GitHub Actions. See [`CONTRIBUTING.md`](CONTRIBUTING.md), the
 roadmap in [`docs/ROADMAP.md`](docs/ROADMAP.md) and progress in
 [`docs/roadmap/STATUS.md`](docs/roadmap/STATUS.md). Conventions follow

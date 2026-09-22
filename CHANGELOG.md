@@ -10,6 +10,18 @@ entry and `docs/roadmap/STATUS.md`, which must agree.
 
 Nothing yet.
 
+## [0.2.0] — 2026-09-22
+
+- **Added** `settings.overdue_gate` with a `strict` mode: any prediction, choice or
+  commitment is refused while any of those is overdue. Notes pass in every mode.
+  `debt` reports `blocked.quick_capture` and `blocked.mode`; the hook line says
+  `capture blocked (strict)`; `gates check add` takes `--kind`.
+- **Added** live verification, all opt-in and outside `check.mjs`:
+  `tools/check-installation.mjs` (isolated installs, no model calls),
+  `tools/live-smoke.mjs --yes` (headless sessions, assertions on the ledger and the
+  tool stream), `evals/` for `claude plugin eval`, and `tools/lib/live-core.mjs`
+  with fixture-stream tests.
+
 ## [0.1.0] — 2026-09-22
 
 First release. Everything in [`docs/ROADMAP.md`](docs/ROADMAP.md) items 01–11.

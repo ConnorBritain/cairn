@@ -299,7 +299,7 @@ includes that file by reference and nothing else about tone.
 - **Acceptance.** `tests/live-core.mjs` passes on recorded streams; both scripts skip
   a missing CLI with a line and refuse model calls without `--yes`; CONTRIBUTING
   documents the three layers and the cost. Version 0.2.0.
-- **Status.** planned
+- **Status.** done
 - **Spec.** [13-live-verification.md](roadmap/13-live-verification.md)
 
 ## After 0.2.0
