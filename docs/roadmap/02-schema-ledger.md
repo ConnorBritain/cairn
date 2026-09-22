@@ -49,8 +49,12 @@ Per-kind fields:
 |---|---|---|---|
 | prediction | `text`, `confidence`, `criterion`, `dates.resolve_by` | `reasoning`, `adversary.ran` | `resolve_by` |
 | choice | `chosen`, `over`, `confidence`, `criterion`, `dates.review_by` | `if_then`, `reasoning`, `adversary.ran` | `review_by` |
-| commitment | `text`, `dates.due_by` | `if_then`, `reasoning`, `adversary.ran` | `due_by` |
+| commitment | `text`, `dates.due_by` | `criterion`, `if_then`, `reasoning`, `adversary.ran` | `due_by` |
 | note | `text` | — (notes are always `quick`) | optional `dates.resolve_by` |
+
+`criterion` is optional on quick commitments and notes; when present it counts toward
+the process score. Notes may resolve `true|false`; `outcome_score` is null when the
+note has no confidence.
 
 `domains` must be non-empty except on notes (default `["general"]`). `confidence` is an
 integer 0–100; on commitments it defaults to 100 when omitted at quick tier and must be
@@ -72,7 +76,8 @@ promotes and says so).
 ```
 
 Outcome labels: prediction `true|false`; choice `yes|partial|no` (stored in
-`criterion_met`, with `outcome` = the same); commitment `kept|missed`.
+`criterion_met`, with `outcome` = the same); commitment `kept|missed`; note
+`true|false`.
 `outcome_score` is Brier: `(confidence/100 − o)²` with `o` = 1 for true/yes/kept, 0.5
 for partial, 0 for false/no/missed. `process_score` is the mean of the three process
 booleans, computed from the entry. `stake_honored` is `yes|no` when the entry has an

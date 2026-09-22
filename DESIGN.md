@@ -49,7 +49,7 @@ cannot.
 |---|---|---|---|
 | `prediction` | claim, confidence 0–100, `resolve_by`, resolvable criterion | reasoning, adversary pass | `true` / `false`, scored by Brier |
 | `choice` | chosen, over (the rejected option), confidence, `review_by`, success criterion | if-then, reasoning, adversary pass | criterion met `yes` / `partial` / `no` |
-| `commitment` | text, `due_by` | if-then, reasoning, adversary pass | `kept` / `missed`, or released with a reason |
+| `commitment` | text, `due_by` | success criterion, if-then, reasoning, adversary pass | `kept` / `missed`, or released with a reason |
 | `note` | text | — (notes are always quick) | not scored; can be promoted by a new entry that links to it |
 
 Every entry carries: `id`, `created_at`, `kind`, `tier`, `domains` (one or more tags),
