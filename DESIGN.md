@@ -100,7 +100,11 @@ next period. Those priorities are what drift is measured against.
 ### Gates (`tools/gates.mjs`)
 
 - A full-tier entry is refused while any full-tier entry is overdue. Quick-tier
-  entries of any kind are always allowed, so capture is never blocked by debt.
+  entries of any kind are always allowed, so capture is never blocked by debt. The
+  `overdue_gate` setting has a `strict` mode in which any prediction, choice or
+  commitment is refused while any of those is overdue. Notes pass in every mode: the
+  five-second note is the floor of capture, so the record never ends because the
+  gate closed.
 - A release requires a stated reason.
 - A review cannot close while an open item in its scope has not been recommitted,
   adjusted, or released.
@@ -157,7 +161,7 @@ same thing everywhere.
 Settings are immutable revisions with an atomic `current` pointer. Undo writes a new
 revision equal to the previous one rather than deleting anything, the same pattern as
 vonnegut's preference store. Fields: `bluntness`, `domains`, `review_cadence_days`,
-`witnesses`, `capture_hook`.
+`witnesses`, `capture_hook`, `overdue_gate`.
 
 ### Hooks
 

@@ -28,9 +28,11 @@ capture in a session. Read the dial once: `cairn settings show --json` → `blun
    if-then. Say which and why in at most five words ("Full: reasoning given.").
    At dial 0 the tier is always quick: full requires an adversary pass and no role
    runs at 0. Say so in one line if the user asked for full.
-3. **Gate.** Run `cairn gates check add --tier <tier>`. Exit 3 means refused: show
-   the `reasons` line verbatim and offer quick tier. Never argue with the gate and
-   never look for a way around it.
+3. **Gate.** Run `cairn gates check add --tier <tier> --kind <kind>`. Exit 3 means
+   refused: show the `reasons` line verbatim. If the line says `full-tier capture
+   blocked`, offer quick tier; if it says `overdue_gate=strict`, offer a note (the
+   only kind that always passes). Never argue with the gate and never look for a
+   way around it.
 4. **Missing fields only.** Compare the sentence against the required fields for the
    kind and tier. Ask for every missing one in a single message, in table order, with
    the short meanings from kinds.md. Domain: use the settings' single domain if there

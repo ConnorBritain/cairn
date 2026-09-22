@@ -12,7 +12,7 @@ import { readEvents, resolveStateDir } from "./lib/store.mjs";
 import { nowIso } from "./lib/time.mjs";
 
 export const USAGE = `Usage:
-  cairn gates check add [--tier quick|full] [--json]
+  cairn gates check add [--tier quick|full] [--kind prediction|choice|commitment|note] [--json]
   cairn gates check release <id> [--reason …] [--json]
   cairn gates check review [--file review.json] [--json]
   cairn gates scope [--json]           open items the next review must decide on
@@ -44,7 +44,7 @@ export function main(argv, io = {}) {
     let verdict;
     switch (action) {
       case "add":
-        verdict = canAdd({ tier: flags.tier || "quick" }, events, now);
+        verdict = canAdd({ tier: flags.tier || "quick", kind: flags.kind || "prediction" }, events, now, settings);
         break;
       case "release": {
         const id = positionals[0];

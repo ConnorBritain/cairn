@@ -56,7 +56,7 @@ export function main(argv, io = {}) {
           adversary, links: { related: flags.related || [], supersedes: flags.supersedes },
         };
         const events = readEvents(dir);
-        const { event, notices } = addEntry(events, input, { ts: now });
+        const { event, notices } = addEntry(events, input, { ts: now, settings: io.settings ?? loadSettings(dir) });
         appendEvent(dir, event);
         const shown = showEntry([...events, event], event.id, now);
         for (const n of notices) err(`note: ${n}\n`);

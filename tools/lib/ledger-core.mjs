@@ -21,12 +21,12 @@ function requireOpen(index, id, nowIso, verb) {
   return entry;
 }
 
-export function addEntry(events, input, { ts }) {
+export function addEntry(events, input, { ts, settings }) {
   const index = indexEvents(events);
   const { entry, notices } = buildEntry(input, { ts });
   for (const id of entry.links.related) requireEntry(index, id);
   if (entry.links.supersedes) requireOpen(index, entry.links.supersedes, ts, "supersede");
-  const verdict = gates.canAdd(entry, events, ts);
+  const verdict = gates.canAdd(entry, events, ts, settings);
   if (!verdict.allowed) throw new CairnError("gate", verdict.reasons.join("; "), verdict);
   return { event: entry, notices };
 }

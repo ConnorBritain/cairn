@@ -10,12 +10,29 @@ const ALLOW = () => ({ allowed: true, reasons: [], blocking: [] });
 const REFUSE = (reasons, blocking) => ({ allowed: false, reasons, blocking });
 
 /**
- * Overdue gate. A full-tier entry is refused while any full-tier entry is overdue.
- * Quick-tier entries of any kind, and notes, always pass.
+ * Overdue gate, in one of two modes (settings.overdue_gate):
+ *   full   — a full-tier entry is refused while any full-tier entry is overdue.
+ *            Quick-tier entries of any kind, and notes, always pass. (default)
+ *   strict — any scored-kind entry (prediction, choice, commitment, either tier) is
+ *            refused while any scored-kind entry is overdue.
+ * Notes always pass in every mode: the five-second note is the floor of capture.
  */
-export function canAdd(draft, events, nowIso) {
-  if (!draft || draft.tier !== "full") return ALLOW();
-  const overdue = annotateAll(indexEvents(events), nowIso).filter((r) => r.status === "overdue" && r.tier === "full");
+export function canAdd(draft, events, nowIso, settings) {
+  if (!draft || draft.kind === "note") return ALLOW();
+  const mode = withDefaults(settings).overdue_gate;
+  const rows = annotateAll(indexEvents(events), nowIso);
+  if (mode === "strict") {
+    const overdue = rows.filter((r) => r.status === "overdue" && r.kind !== "note");
+    if (!overdue.length) return ALLOW();
+    const ids = overdue.map((r) => r.id);
+    const noun = ids.length === 1 ? "entry is" : "entries are";
+    return REFUSE(
+      [`capture blocked (overdue_gate=strict): ${ids.length} ${noun} overdue (${ids.join(", ")}). Resolve or release one, or capture a note.`],
+      ids,
+    );
+  }
+  if (draft.tier !== "full") return ALLOW();
+  const overdue = rows.filter((r) => r.status === "overdue" && r.tier === "full");
   if (!overdue.length) return ALLOW();
   const ids = overdue.map((r) => r.id);
   const noun = ids.length === 1 ? "entry is" : "entries are";

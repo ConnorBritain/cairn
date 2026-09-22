@@ -28,6 +28,10 @@ store versions every change; you never edit the settings files by hand.
    - Stop-hook capture: `capture_hook=true|false`. Say in one line what it does:
      scans a session's end for decision language and writes candidates to a pending
      file for the user to confirm; never writes an entry.
+   - Overdue gate: `overdue_gate=full|strict`. `full` (default) reads "no new full
+     commitments while you owe a full one": quick capture always passes. `strict`
+     reads "nothing new until the overdue is dealt with": any prediction, choice or
+     commitment is refused while any of those is overdue. Notes always pass in both.
 3. `cairn settings set <key>=<value> [--note "<user's words>"]`. Print the tool's
    output: the change, the new revision, and the undo command.
 4. If the user says undo: `cairn settings undo`. Print the restored revision.

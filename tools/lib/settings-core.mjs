@@ -1,12 +1,12 @@
 // Settings as immutable revisions. Pure: validate, apply a change, undo. The store
 // (settings-store.mjs) owns files and locks.
 import { createHash } from "node:crypto";
-import { DEFAULT_SETTINGS } from "./defaults.mjs";
+import { DEFAULT_SETTINGS, OVERDUE_GATE_MODES } from "./defaults.mjs";
 import { invalid } from "./errors.mjs";
 import { DOMAIN_RE } from "./schema.mjs";
 
 export const SETTINGS_SCHEMA = "cairn-settings/1";
-export const FIELDS = ["bluntness", "domains", "review_cadence_days", "witnesses", "capture_hook"];
+export const FIELDS = ["bluntness", "domains", "review_cadence_days", "witnesses", "capture_hook", "overdue_gate"];
 
 export function validateSettings(s) {
   const errors = [];
@@ -24,6 +24,7 @@ export function validateSettings(s) {
     if (w.note !== undefined && w.note !== null && typeof w.note !== "string") errors.push("witnesses[].note: string");
   }
   if (typeof s.capture_hook !== "boolean") errors.push("capture_hook: true or false");
+  if (!OVERDUE_GATE_MODES.includes(s.overdue_gate)) errors.push(`overdue_gate: ${OVERDUE_GATE_MODES.join(" or ")}`);
   return errors;
 }
 
@@ -56,6 +57,10 @@ export function parseAssignment(text) {
     case "capture_hook": {
       if (!["true", "false", "on", "off"].includes(raw)) throw invalid(`${key}: true or false, got ${raw}`);
       return { key, value: raw === "true" || raw === "on" };
+    }
+    case "overdue_gate": {
+      if (!OVERDUE_GATE_MODES.includes(raw)) throw invalid(`${key}: ${OVERDUE_GATE_MODES.join(" or ")}, got ${raw}`);
+      return { key, value: raw };
     }
     case "domains":
       return { key, value: raw === "" ? [] : raw.split(",").map((d) => d.trim().toLowerCase()).filter(Boolean) };

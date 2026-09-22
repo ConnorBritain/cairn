@@ -7,7 +7,10 @@ export const DEFAULT_SETTINGS = Object.freeze({
   review_cadence_days: 7,
   witnesses: [],
   capture_hook: false,
+  overdue_gate: "full",
 });
+
+export const OVERDUE_GATE_MODES = ["full", "strict"];
 
 export const MIN_N = 5;
 

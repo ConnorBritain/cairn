@@ -72,6 +72,14 @@ check("cadence from settings changes review_due in the hook", "the hook reads th
   run(["settings", "set", "review_cadence_days=30"], { home });
   assert.equal(hook({ home }).stdout, "");
 });
+check("strict overdue gate reaches the hook line", "the hook must name the mode the user chose, or the user will not know why capture is refused", () => {
+  const home = tempHome();
+  run(["add", "--kind", "prediction", "--text", "q", "--confidence", "60", "--criterion", "c", "--domain", "a", "--resolve-by", "2000-01-01"], { home, now: "1999-12-01T00:00:00Z" });
+  assert.match(hook({ home }).context, /1 overdue \(p-19991201-[0-9a-z]{4} due 2000-01-01\)\n/);
+  assert.doesNotMatch(hook({ home }).context, /blocked/);
+  run(["settings", "set", "overdue_gate=strict"], { home });
+  assert.match(hook({ home }).context, /capture blocked \(strict\)/);
+});
 check("malformed ledger → silent, exit 0", "a corrupt file must not brick the session; the CLI reports it when asked", () => {
   const home = tempHome();
   mkdirSync(home, { recursive: true });

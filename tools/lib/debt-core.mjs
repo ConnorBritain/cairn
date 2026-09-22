@@ -22,7 +22,9 @@ export function debt(events, nowIso, settings) {
     .filter((r) => r.days_left >= 0 && r.days_left <= DUE_WINDOW_DAYS)
     .sort((a, b) => a.days_left - b.days_left || a.id.localeCompare(b.id));
 
-  const gate = canAdd({ tier: "full" }, events, nowIso);
+  const settingsAll = withDefaults(settings);
+  const full = canAdd({ tier: "full", kind: "prediction" }, events, nowIso, settingsAll);
+  const quick = canAdd({ tier: "quick", kind: "prediction" }, events, nowIso, settingsAll);
   const review = lastReview(index);
   const last_review = review ? { id: review.id, at: review.ts, days_since: daysBetween(review.ts, nowIso) } : null;
   const review_due = review ? last_review.days_since >= cadence : rows.length > 0;
@@ -31,7 +33,7 @@ export function debt(events, nowIso, settings) {
     now: nowIso,
     overdue,
     due_this_week,
-    blocked: { full_tier_capture: !gate.allowed, by: gate.blocking },
+    blocked: { full_tier_capture: !full.allowed, quick_capture: !quick.allowed, mode: settingsAll.overdue_gate, by: full.blocking },
     last_review,
     review_due,
     counts: { overdue: overdue.length, due_this_week: due_this_week.length, open: rows.filter((r) => isOpen(r.status)).length },
@@ -47,7 +49,8 @@ export function debtLines(d) {
     first.push(`${d.overdue.length} overdue (${head.id} due ${head.date}${more})`);
   }
   if (d.due_this_week.length) first.push(`${d.due_this_week.length} due this week`);
-  if (d.blocked.full_tier_capture) first.push("full-tier capture blocked");
+  if (d.blocked.quick_capture) first.push("capture blocked (strict)");
+  else if (d.blocked.full_tier_capture) first.push("full-tier capture blocked");
   const lines = [];
   if (first.length) lines.push(`cairn: ${first.join(" · ")}`);
   if (first.length || d.review_due) {

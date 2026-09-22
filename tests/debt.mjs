@@ -41,7 +41,14 @@ check("blocked mirrors the overdue gate", "debt and the gate must never disagree
   const fullOverdue = [pred("p-20260901-0002", "2026-09-01", { tier: "full", reasoning: "r", adversary })];
   const d = debt(fullOverdue, NOW);
   assert.equal(d.blocked.full_tier_capture, true);
+  assert.equal(d.blocked.quick_capture, false);
+  assert.equal(d.blocked.mode, "full");
   assert.deepEqual(d.blocked.by, ["p-20260901-0002"]);
+  const strict = debt(quickOverdue, NOW, { overdue_gate: "strict" });
+  assert.equal(strict.blocked.quick_capture, true);
+  assert.equal(strict.blocked.full_tier_capture, true);
+  assert.equal(strict.blocked.mode, "strict");
+  assert.equal(debtLines(strict)[0], "cairn: 1 overdue (p-20260901-0001 due 2026-09-01) · capture blocked (strict)");
 });
 check("review due: never reviewed with entries; 6 days no; 7 days yes; cadence configurable", "the ritual is the only place forced choices happen; the reminder must fire on the cadence exactly", () => {
   assert.equal(debt([pred("p-20260901-0001", "2026-12-01")], NOW).review_due, true);

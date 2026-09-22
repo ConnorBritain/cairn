@@ -29,6 +29,10 @@ check("parseAssignment types each key and refuses unknown keys", "the CLI takes 
   assert.deepEqual(parseAssignment('witnesses=[{"name":"X"}]'), { key: "witnesses", value: [{ name: "X" }] });
   assert.throws(() => parseAssignment("nope=1"), /unknown setting/);
   assert.throws(() => parseAssignment("bluntness=two"), /integer/);
+  assert.deepEqual(parseAssignment("overdue_gate=strict"), { key: "overdue_gate", value: "strict" });
+  assert.throws(() => parseAssignment("overdue_gate=loose"), /full or strict/);
+  assert.ok(validateSettings({ ...initSettings(TS), overdue_gate: "loose" }).some((m) => m.startsWith("overdue_gate")));
+  assert.equal(initSettings(TS).overdue_gate, "full");
 });
 check("apply increments revision, links parent digest, refuses no-ops; undo restores values as a new revision", "undo must add history, never delete it", () => {
   const r1 = initSettings(TS);

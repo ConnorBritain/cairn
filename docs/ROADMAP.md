@@ -57,10 +57,10 @@ calibration curve only; the stored value is what the user said.
 (where the kind has one) and a recorded adversary pass. Process score is the fraction
 of those three booleans present on the entry at resolution.
 
-**Gate scope.** The overdue gate blocks full-tier entries while any full-tier entry is
-overdue. Quick-tier entries of any kind pass. This reads the brief's "quick notes
-always allowed" as "quick tier always allowed"; if the intent was notes only, item 03
-changes one predicate.
+**Gate scope.** The overdue gate has two modes in `settings.overdue_gate`. `full`
+(default) blocks full-tier entries while any full-tier entry is overdue; quick-tier
+entries of any kind pass. `strict` (item 12) blocks any prediction, choice or
+commitment while any of those is overdue. Notes pass in every mode.
 
 **Minimum n.** Any statistic with fewer than five observations is reported as
 `insufficient` with its `n`, never as a number. The reviewer may not cite an
@@ -269,7 +269,40 @@ includes that file by reference and nothing else about tone.
 - **Status.** done
 - **Spec.** [11-release.md](roadmap/11-release.md)
 
-## After 0.1.0
+### 12 · overdue-gate — a strict mode for the overdue gate
+
+- **Goal.** Let a user choose to have quick-tier capture held by debt too, without
+  ever closing the note.
+- **Deterministic half.** `settings.overdue_gate` in `full|strict` (default `full`);
+  `gates-core.canAdd` takes settings; `ledger add`, `gates check add --kind`, and
+  `debt` (`blocked.quick_capture`, the line `capture blocked (strict)`) honor it.
+- **Model half.** `/cairn` offers a note when strict refuses; `/cairn-tune` documents
+  the two readings.
+- **Storage.** `settings/`.
+- **Acceptance.** In strict, a quick prediction is refused while a quick prediction
+  is overdue and a note is allowed; default behavior unchanged; debt and the hook
+  print the strict line; settings reject any other value.
+- **Status.** done
+- **Spec.** [12-overdue-gate.md](roadmap/12-overdue-gate.md)
+
+### 13 · live-verification — installation check, live smoke, evals
+
+- **Goal.** A repeatable way to prove the plugin installs and the skills and roles
+  behave in a real Claude Code or Codex session, kept out of `check.mjs`.
+- **Deterministic half.** `tools/check-installation.mjs` (isolated config dirs, no
+  model calls), `tools/live-smoke.mjs --yes` (headless sessions, assertions on the
+  ledger file and the tool stream, never on prose), `tools/lib/live-core.mjs` with
+  fixture-stream tests.
+- **Model half.** `evals/` cases for `claude plugin eval`: skill fires, adversary
+  spawned, no recommendation.
+- **Storage.** Temp directories only.
+- **Acceptance.** `tests/live-core.mjs` passes on recorded streams; both scripts skip
+  a missing CLI with a line and refuse model calls without `--yes`; CONTRIBUTING
+  documents the three layers and the cost. Version 0.2.0.
+- **Status.** planned
+- **Spec.** [13-live-verification.md](roadmap/13-live-verification.md)
+
+## After 0.2.0
 
 Not planned, recorded so they are not re-invented: a `/cairn-import` for existing
 spreadsheets of predictions; per-domain minimum-n overrides; a witness channel that is

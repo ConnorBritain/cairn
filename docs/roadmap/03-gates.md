@@ -15,9 +15,8 @@ tests/gates.mjs            suite
 
 1. **Overdue gate.** A `full`-tier entry is refused while any `full`-tier entry is
    overdue. `quick`-tier entries of any kind are always allowed. Notes are always
-   allowed. (ROADMAP cross-cutting: "quick tier always allowed" is the chosen reading
-   of "quick notes always allowed"; if the narrower reading is wanted, change the
-   predicate in `canAdd` and the one test that pins it.)
+   allowed. Item 12 adds `settings.overdue_gate=strict`, under which any scored-kind
+   entry is refused while any scored-kind entry is overdue; notes still pass.
 2. **Release gate.** A release requires a non-empty reason.
 3. **Review gate.** A review cannot close while any open item in its scope lacks a
    forced choice. Scope = every open entry that is overdue, or whose date falls before

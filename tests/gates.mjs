@@ -34,6 +34,25 @@ check("quick-tier overdue does not block; quick and note adds always pass", "cap
   assert.equal(canAdd({ tier: "quick", kind: "note" }, events, LATE).allowed, true);
 });
 
+check("strict mode: quick scored capture refused while any scored entry is overdue; notes always pass; default unchanged", "the setting must hold quick capture without ever closing the note, or the record ends when the gate closes", () => {
+  const strict = { overdue_gate: "strict" };
+  const quickOverdue = [quick("p-20260901-h001", "2026-10-01")];
+  const fullOverdue = [full("p-20260901-h002", "2026-10-01")];
+  const refused = canAdd({ tier: "quick", kind: "prediction" }, quickOverdue, LATE, strict);
+  assert.equal(refused.allowed, false);
+  assert.match(refused.reasons[0], /capture blocked \(overdue_gate=strict\): 1 entry is overdue \(p-20260901-h001\)\. Resolve or release one, or capture a note\./);
+  assert.deepEqual(refused.blocking, ["p-20260901-h001"]);
+  assert.equal(canAdd({ tier: "quick", kind: "commitment" }, fullOverdue, LATE, strict).allowed, false);
+  assert.equal(canAdd({ tier: "full", kind: "choice" }, quickOverdue, LATE, strict).allowed, false);
+  assert.equal(canAdd({ tier: "quick", kind: "note" }, [...quickOverdue, ...fullOverdue], LATE, strict).allowed, true);
+  assert.equal(canAdd({ tier: "quick", kind: "prediction" }, quickOverdue, "2026-10-01T23:59:59Z", strict).allowed, true);
+  assert.equal(canAdd({ tier: "quick", kind: "prediction" }, quickOverdue, LATE, { overdue_gate: "full" }).allowed, true);
+  assert.equal(canAdd({ tier: "quick", kind: "prediction" }, quickOverdue, LATE).allowed, true);
+  assert.equal(canAdd({ tier: "full", kind: "prediction" }, quickOverdue, LATE, strict).allowed, false);
+  const noteOverdue = [{ event: "entry", id: "n-20260901-h003", ts: TS, kind: "note", tier: "quick", domains: ["general"], text: "n", dates: { resolve_by: "2026-10-01" }, links }];
+  assert.equal(canAdd({ tier: "quick", kind: "prediction" }, noteOverdue, LATE, strict).allowed, true, "an overdue note does not block");
+});
+
 group("release gate");
 check("release refused without a reason, with whitespace, or on a closed entry", "a free release is the cheapest escape from the record", () => {
   const e = quick("p-20260901-dddd", "2026-10-01");
@@ -118,6 +137,22 @@ check("ledger add enforces the overdue gate with exit 3 and writes nothing", "th
   assert.equal(readEvents(home).length, before);
   const q = run(["add", "--kind", "note", "--text", "still allowed"], { home, now: LATE });
   assert.equal(q.status, 0, q.stderr);
+});
+check("strict mode through the CLI: settings drive ledger add, gates check add --kind, and debt", "the setting must reach every surface that asks the gate, or the surfaces disagree", () => {
+  const strictHome = tempHome();
+  run(["add", "--kind", "prediction", "--text", "q", "--confidence", "60", "--criterion", "c", "--domain", "a", "--resolve-by", "2026-09-30"], { home: strictHome });
+  assert.equal(run(["add", "--kind", "commitment", "--text", "still fine by default", "--domain", "a", "--due-by", "2026-12-01"], { home: strictHome, now: LATE }).status, 0);
+  assert.equal(run(["settings", "set", "overdue_gate=strict"], { home: strictHome }).status, 0);
+  const refused = run(["add", "--kind", "commitment", "--text", "blocked now", "--domain", "a", "--due-by", "2026-12-01"], { home: strictHome, now: LATE });
+  assert.equal(refused.status, 3);
+  assert.match(refused.stderr, /overdue_gate=strict/);
+  assert.equal(run(["add", "--kind", "note", "--text", "notes pass"], { home: strictHome, now: LATE }).status, 0);
+  assert.equal(run(["gates", "check", "add", "--tier", "quick"], { home: strictHome, now: LATE }).status, 3);
+  assert.equal(run(["gates", "check", "add", "--tier", "quick", "--kind", "note"], { home: strictHome, now: LATE }).status, 0);
+  const d = run(["debt", "--json"], { home: strictHome, now: LATE }).json;
+  assert.equal(d.blocked.quick_capture, true);
+  assert.equal(d.blocked.mode, "strict");
+  assert.match(run(["debt"], { home: strictHome, now: LATE }).stdout, /capture blocked \(strict\)/);
 });
 
 function advFile(dir) { const f = join(dir, "adv.json"); writeFileSync(f, JSON.stringify(adversary)); return f; }
