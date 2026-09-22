@@ -103,7 +103,7 @@ includes that file by reference and nothing else about tone.
   field-level messages. Resolution computes `outcome_score` and `process_score`.
   Attempting to change a frozen field yields a refusal that names `supersedes` as the
   path. `list` derives `overdue`. Two appends from two processes do not corrupt the file.
-- **Status.** planned
+- **Status.** done
 - **Spec.** [02-schema-ledger.md](roadmap/02-schema-ledger.md)
 
 ### 03 · gates — the rules, machine-readable
