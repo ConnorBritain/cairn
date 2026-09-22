@@ -53,4 +53,4 @@ nothing and exits 0. Missing state directory or empty ledger: same.
 
 ## Status
 
-planned
+done

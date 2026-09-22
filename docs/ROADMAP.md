@@ -154,7 +154,7 @@ includes that file by reference and nothing else about tone.
 - **Storage.** Reads `ledger.jsonl`, `settings/` for cadence.
 - **Acceptance.** Runs under 100 ms on a 10k-line ledger. Empty ledger and missing
   state directory both yield an empty debt object, exit 0, no output in text form.
-- **Status.** planned
+- **Status.** done
 - **Spec.** [05-debt.md](roadmap/05-debt.md)
 
 ### 06 · digest — the review packet

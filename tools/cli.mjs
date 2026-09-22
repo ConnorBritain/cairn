@@ -6,6 +6,8 @@ const TOOLS = {
   ledger: () => import("./ledger.mjs"),
   gates: () => import("./gates.mjs"),
   score: () => import("./score.mjs"),
+  debt: () => import("./debt.mjs"),
+  digest: () => import("./digest.mjs"),
 };
 // Ledger verbs are reachable without the "ledger" prefix.
 const LEDGER_VERBS = ["add", "resolve", "release", "reflect", "list", "show", "related"];
@@ -16,6 +18,8 @@ Commands:
   ${LEDGER_VERBS.join(" | ")}   shortcuts for the ledger verbs
   gates <check add|release|review | scope> …                  the rules, without acting
   score [--domain d] [--kind k] [--since …] [--summary] …      the numbers
+  debt [--json]                                               overdue, due this week, blocked, last review
+  digest [--json]                                             the review packet
   help
 Run "cairn <command> help" for that command's usage.`;
 
