@@ -102,6 +102,6 @@ hooks. Record the per-case lines in the PR.
 
 ## Releasing
 
-Bump `package.json`, both plugin manifests, the marketplace entry, CHANGELOG and
+Bump `package.json`, the four plugin manifests, the marketplace entry, CHANGELOG and
 STATUS `Last version:` in one commit. `tools/check-packaging.mjs` (item 11) asserts
 they agree.

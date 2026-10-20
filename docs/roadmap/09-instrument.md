@@ -48,7 +48,8 @@ revision n+1 equal to the parent of n. `history` lists revisions with what chang
 4. Any error → emit nothing, exit 0.
 
 Codex: the same script is documented in `AGENTS.md` as a command to run at session
-start (`cairn debt`), since Codex hooks are not assumed.
+start (`cairn debt`), since Codex hooks are not assumed. Superseded by item 14: Codex 0.163
+runs the plugin's hooks once trusted.
 
 ## `/cairn-score`
 

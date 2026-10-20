@@ -28,8 +28,14 @@ unchecked item. The house rules in [`DESIGN.md`](DESIGN.md) override any spec.
 
 - Install: `node install-cairn-codex.mjs` (this checkout as a plugin, the three
   roles as custom agents); verify with `--check`.
-- Codex runs no SessionStart hook here. Run `node tools/cli.mjs debt` when a
-  session starts; it prints at most two lines and nothing when nothing is due.
+- Codex 0.163 reads the plugin's `hooks/hooks.json`, so the SessionStart debt line
+  runs once the hook is trusted (`/hooks`). Until then, run `node tools/cli.mjs debt`
+  when a session starts; it prints at most two lines and nothing when nothing is due.
+  The opt-in Stop capture hook runs there too, but has not been checked against Codex's
+  transcript format.
+- The ritual skills (`cairn-review`, `cairn-score`, `cairn-tune`, `cairn-witness`) run
+  only when asked by name: `disable-model-invocation` in Claude Code,
+  `agents/openai.yaml` in Codex. Capture and resolve stay automatic.
 - Skills call the tools by relative path (`tools/cli.mjs`); the roles are the
   custom agents `cairn-adversary`, `cairn-reviewer`, `cairn-witness`, invoked with
   only the inputs the skill names.

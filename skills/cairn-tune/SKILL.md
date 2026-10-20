@@ -2,6 +2,7 @@
 name: cairn-tune
 description: Set Cairn's bluntness dial (0 instrument, 1 Socratic, 2 direct, 3 hard), domains, review cadence, witness contacts, and the optional Stop-hook capture. Every change is a versioned revision with undo. Use when the user wants the coach softer or harder, wants to name their domains, or wants to change how often reviews are due. Not for ledger entries (cairn).
 allowed-tools: Read, Bash(cairn:*), Bash(node:*)
+disable-model-invocation: true
 ---
 
 # Cairn tune

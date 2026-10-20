@@ -2,6 +2,7 @@
 name: cairn-score
 description: Show the Cairn numbers by domain — Brier, calibration, informativeness, release rate, process and drift — with plain explanations for non-technical users. Use when the user asks how they are doing, how calibrated they are, or what a score means. Read-only; not for capture (cairn), resolving (cairn-resolve) or the weekly review (cairn-review).
 allowed-tools: Read, Bash(cairn:*), Bash(node:*)
+disable-model-invocation: true
 ---
 
 # Cairn score

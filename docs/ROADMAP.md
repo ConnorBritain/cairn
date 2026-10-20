@@ -302,7 +302,21 @@ includes that file by reference and nothing else about tone.
 - **Status.** done
 - **Spec.** [13-live-verification.md](roadmap/13-live-verification.md)
 
-## After 0.2.0
+### 14 · portability — Cursor and generic manifests, hidden rituals, Codex hook facts
+
+- **Goal.** Cairn installs in Cursor and any Agent Plugins harness, and costs less
+  always-on context everywhere, without weakening a house rule.
+- **Deliverables.** `.cursor-plugin/plugin.json`, `.plugin/plugin.json`,
+  `rules/cairn.mdc`; `disable-model-invocation` and `agents/openai.yaml` on the four
+  ritual skills; the debt line names the `cairn-review` skill; README and AGENTS.md say what
+  Codex runs; `check-packaging.mjs` pins the new manifests.
+- **Storage.** None.
+- **Acceptance.** Five manifests at one version; the Cursor author has only schema
+  keys; check green. Version 0.3.0.
+- **Status.** done
+- **Spec.** [14-portability.md](roadmap/14-portability.md)
+
+## After 0.3.0
 
 Not planned, recorded so they are not re-invented: a `/cairn-import` for existing
 spreadsheets of predictions; per-domain minimum-n overrides; a witness channel that is

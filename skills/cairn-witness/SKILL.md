@@ -2,6 +2,7 @@
 name: cairn-witness
 description: Draft a short message to a named person about one Cairn commitment, prediction or resolution, from the entry's facts only. Use when the user wants to tell someone what they committed to or how it turned out. The user sends it; Cairn sends nothing. Not for capture (cairn) or resolving (cairn-resolve).
 allowed-tools: Read, Bash(cairn:*), Bash(node:*), Agent
+disable-model-invocation: true
 ---
 
 # Cairn witness

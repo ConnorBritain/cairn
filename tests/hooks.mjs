@@ -51,7 +51,7 @@ check("one overdue entry → exactly two lines, matching cairn debt", "the hook 
   const lines = r.context.split("\n");
   assert.equal(lines.length, 2);
   assert.match(lines[0], /^cairn: 1 overdue \(m-19991201-[0-9a-z]{4} due 2000-01-01\)$/);
-  assert.equal(lines[1], "cairn: no review yet · review due");
+  assert.equal(lines[1], "cairn: no review yet · review due (cairn-review)");
   const debt = run(["debt"], { home, now: new Date().toISOString() });
   assert.equal(debt.stdout.trim(), r.context);
 });

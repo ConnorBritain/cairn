@@ -2,6 +2,7 @@
 name: cairn-review
 description: The weekly Cairn ritual — digest, reviewer in fresh context, a forced choice (recommit, adjust, release) for every open item in scope, then stated priorities for the next period and a review record. Use when a review is due or the user asks to review the ledger. Not for capture (cairn) or single resolutions (cairn-resolve).
 allowed-tools: Read, Write, Bash(cairn:*), Bash(node:*), Agent
+disable-model-invocation: true
 ---
 
 # Cairn review

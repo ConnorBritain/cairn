@@ -33,6 +33,16 @@ assert.equal(market.plugins[0].source, "./");
 for (const [label, v] of [["claude-plugin", claude.version], ["codex-plugin", codex.version], ["marketplace", market.plugins[0].version]]) {
   assert.equal(v, pkg.version, `${label} version ${v} != package.json ${pkg.version}`);
 }
+const cursor = json(".cursor-plugin/plugin.json");
+const generic = json(".plugin/plugin.json");
+for (const [label, m] of [["cursor-plugin", cursor], ["plugin", generic]]) {
+  assert.equal(m.name, "cairn", label);
+  assert.equal(m.version, pkg.version, `${label} version ${m.version} != package.json ${pkg.version}`);
+  assert.equal(m.repository, "https://github.com/ConnorBritain/cairn", label);
+}
+assert.deepEqual(Object.keys(cursor.author).filter((k) => !["name", "email"].includes(k)), [], "Cursor's schema allows author name and email only");
+for (const key of ["skills", "agents", "rules"]) assert.ok(existsSync(join(root, cursor[key])), `cursor-plugin ${key}: ${cursor[key]}`);
+assert.ok(!("hooks" in cursor), "no Cursor hooks until a SessionStart event is verified there");
 assert.match(read("docs/roadmap/STATUS.md"), new RegExp(`^Last version: ${pkg.version.replaceAll(".", "\\.")}$`, "m"));
 assert.match(read("CHANGELOG.md"), new RegExp(`^## \\[${pkg.version.replaceAll(".", "\\.")}\\]`, "m"));
 assert.equal(claude.repository, "https://github.com/ConnorBritain/cairn");
@@ -57,6 +67,11 @@ for (const dir of skills) {
   const fm = frontmatter(read(`skills/${dir}/SKILL.md`), dir);
   assert.equal(fm.name, dir);
   assert.ok(fm.description, `${dir}: description`);
+  // Rituals run only when asked by name (item 14); capture and resolve stay automatic.
+  const ritual = ["cairn-review", "cairn-score", "cairn-tune", "cairn-witness"].includes(dir);
+  assert.equal(fm["disable-model-invocation"] === "true", ritual, `${dir}: disable-model-invocation`);
+  assert.equal(existsSync(join(root, "skills", dir, "agents", "openai.yaml")), ritual, `${dir}: agents/openai.yaml`);
+  if (ritual) assert.match(read(`skills/${dir}/agents/openai.yaml`), /^\s*allow_implicit_invocation: false$/m, `${dir}: Codex policy`);
 }
 const hooks = json("hooks/hooks.json").hooks;
 for (const group of Object.values(hooks)) for (const h of group.flatMap((x) => x.hooks)) {

@@ -3,12 +3,26 @@
 All notable changes to this repository.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The version
-recorded here is the one in `package.json`, both plugin manifests, the marketplace
+recorded here is the one in `package.json`, the four plugin manifests, the marketplace
 entry and `docs/roadmap/STATUS.md`, which must agree.
 
 ## Unreleased
 
 Nothing yet.
+
+## [0.3.0] — 2026-10-20
+
+- **Added** Cursor and generic packaging: `.cursor-plugin/plugin.json` (skills, agents and
+  `rules/cairn.mdc`, which asks the agent to run `cairn debt` at session start, since
+  Cursor has no verified SessionStart hook) and `.plugin/plugin.json`.
+  `tools/check-packaging.mjs` pins both.
+- **Changed** the ritual skills (`cairn-review`, `cairn-score`, `cairn-tune`,
+  `cairn-witness`) run only when asked by name: `disable-model-invocation` for Claude
+  Code, `agents/openai.yaml` for Codex. Capture and resolve stay automatic. The debt
+  line now names the `cairn-review` skill when a review is due, and the Codex
+  `defaultPrompt`s are capture and resolve sentences instead of review and score.
+- **Fixed** the Codex notes: Codex 0.163 reads the plugin's `hooks/hooks.json`, so the
+  SessionStart debt line runs there once the hook is trusted (`/hooks`).
 
 ## [0.2.0] — 2026-09-22
 
