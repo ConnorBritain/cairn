@@ -36,8 +36,10 @@ Text mode prints at most two lines, the hook's exact format:
 
 ```
 cairn: 1 overdue (p-20260921-k7q2 due 2026-09-30) · 1 due this week · full-tier capture blocked
-cairn: last review 9 days ago · review due
+cairn: last review 9 days ago · review due (cairn-review)
 ```
+
+(Item 14 added the skill name to the review line, since that skill is now invoked by name.)
 
 When `overdue`, `due_this_week` are empty and `review_due` is false, text mode prints
 nothing and exits 0. Missing state directory or empty ledger: same.

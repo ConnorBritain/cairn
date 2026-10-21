@@ -1,0 +1,8 @@
+---
+description: Cairn decision debt at session start (Cursor has no SessionStart hook for it).
+alwaysApply: true
+---
+
+At the start of a session, run `cairn debt` if `cairn` is on PATH; otherwise run
+`node tools/cli.mjs debt` from the cairn plugin's directory.
+It prints at most two lines, and nothing when nothing is due; mention them once.

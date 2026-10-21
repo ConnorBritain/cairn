@@ -55,7 +55,7 @@ export function debtLines(d) {
   if (first.length) lines.push(`cairn: ${first.join(" · ")}`);
   if (first.length || d.review_due) {
     const when = d.last_review ? `last review ${d.last_review.days_since} day${d.last_review.days_since === 1 ? "" : "s"} ago` : "no review yet";
-    lines.push(`cairn: ${when}${d.review_due ? " · review due" : ""}`);
+    lines.push(`cairn: ${when}${d.review_due ? " · review due (cairn-review)" : ""}`);
   }
   return lines;
 }

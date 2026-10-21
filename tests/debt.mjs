@@ -64,14 +64,14 @@ check("two lines when both have content, one when only one does", "the hook's co
   const lines = debtLines(both);
   assert.equal(lines.length, 2);
   assert.equal(lines[0], "cairn: 1 overdue (p-20260901-0001 due 2026-09-01)");
-  assert.equal(lines[1], "cairn: last review 21 days ago · review due");
+  assert.equal(lines[1], "cairn: last review 21 days ago · review due (cairn-review)");
   const onlyReview = debtLines(debt([review("2026-09-01T00:00:00Z")], NOW));
-  assert.deepEqual(onlyReview, ["cairn: last review 21 days ago · review due"]);
+  assert.deepEqual(onlyReview, ["cairn: last review 21 days ago · review due (cairn-review)"]);
   const onlyDebt = debtLines(debt([pred("p-20260901-0001", "2026-09-01"), review("2026-09-21T00:00:00Z")], NOW));
   assert.deepEqual(onlyDebt, ["cairn: 1 overdue (p-20260901-0001 due 2026-09-01)", "cairn: last review 1 day ago"]);
   const many = debtLines(debt([pred("p-20260901-0001", "2026-09-01"), pred("p-20260901-0002", "2026-09-02", { tier: "full", reasoning: "r", adversary }), pred("p-20260901-0003", "2026-09-25")], NOW));
   assert.equal(many[0], "cairn: 2 overdue (p-20260901-0001 due 2026-09-01 +1 more) · 1 due this week · full-tier capture blocked");
-  assert.equal(many[1], "cairn: no review yet · review due");
+  assert.equal(many[1], "cairn: no review yet · review due (cairn-review)");
 });
 
 group("speed");

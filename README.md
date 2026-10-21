@@ -5,7 +5,7 @@ choices and commitments with a confidence and a date. A script scores the record
 it resolves. A fresh-context adversary argues the other side before you commit. A
 Socratic coach reads the numbers back at review and never tells you what to decide.
 
-Plain Markdown and JSONL in your own directory. Runs as a Claude Code or Codex plugin
+Plain Markdown and JSONL in your own directory. Runs as a Claude Code, Codex or Cursor plugin
 plus a dependency-free Node CLI. No network, no API keys: model roles run as
 subagents of the host session you are already in.
 
@@ -55,8 +55,22 @@ node install-cairn-codex.mjs --check
 ```
 
 This installs the checkout as a plugin and the three roles as custom agents. Keep the
-checkout at that path. Codex does not run the SessionStart hook; run `cairn debt`
-(or `node tools/cli.mjs debt`) when you start, or add that line to your own hooks.
+checkout at that path. Codex runs the plugin's SessionStart hook once you trust it
+(`/hooks`); until then, run `cairn debt` (or `node tools/cli.mjs debt`) when you start.
+The opt-in Stop capture hook also runs there once trusted; it has not been checked against
+Codex's transcript format.
+
+### Cursor
+
+Cursor loads the plugin from `.cursor-plugin/plugin.json`: the skills, the three roles as
+agents, and `rules/cairn.mdc`. Cursor has no verified SessionStart hook, so the debt line
+is a rule asking the agent to run `cairn debt` at the start of a session. That is
+advisory: nothing enforces it.
+
+In Claude Code and Codex, the review, score, tune and witness skills run only when you ask
+for them by name (`/cairn-review` in Claude Code, `$cairn-review` in Codex). Whether Cursor
+honours that setting is unverified. Capture and
+resolve stay automatic.
 
 ### The CLI on its own
 
