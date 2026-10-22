@@ -1,0 +1,39 @@
+[marketplaces.agent-primitives]
+source_type = "git"
+source = "https://github.com/ConnorBritain/agent-primitives.git"
+ref = "c52b0ec85a6bf4b85ebe670c45dea65730d5b6a8"
+
+[marketplaces.cairn]
+source_type = "git"
+source = "https://github.com/ConnorBritain/cairn.git"
+ref = "a8c75b87674eebfa38604f5cdfb8e19a0d3dc721"
+
+[marketplaces.compounder]
+source_type = "git"
+source = "https://github.com/ConnorBritain/compounder.git"
+ref = "151fdb697302907dda9e5ca6c4ea196b62f2d748"
+
+[marketplaces.elonify]
+source_type = "git"
+source = "https://github.com/ConnorBritain/elonify.git"
+ref = "8f17dcf3ef2e9da59ef11375830dd92bec31c017"
+
+[marketplaces.gestalt]
+source_type = "git"
+source = "https://github.com/ConnorBritain/gestalt.git"
+ref = "761b29a2b3abcb374d3fc8c08c6b7e0e91bc57c0"
+
+[plugins."cairn@cairn"]
+enabled = true
+
+[plugins."compounder@compounder"]
+enabled = true
+
+[plugins."elonify@elonify"]
+enabled = true
+
+[plugins."gestalt@gestalt"]
+enabled = true
+
+[plugins."prose-author@vonnegut"]
+enabled = false

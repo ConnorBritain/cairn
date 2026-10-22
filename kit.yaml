@@ -1,0 +1,9 @@
+# kit.yaml for repos where file-exists:.claude-plugin/plugin.json.
+# Copy into the repo as kit.yaml, then: kitctl apply (it shows the plan and asks first).
+schema_version: 1
+loadouts:
+  - gestalt-flow
+  - gestalt-plugin
+harnesses:
+  - claude
+  - codex

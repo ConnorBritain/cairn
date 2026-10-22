@@ -1,0 +1,42 @@
+{
+  "enabledPlugins": {
+    "cairn@cairn": true,
+    "compounder@compounder": true,
+    "elonify@elonify": true,
+    "gestalt@gestalt": true,
+    "prose-author@vonnegut": false,
+    "verification-gate@agent-primitives": true
+  },
+  "extraKnownMarketplaces": {
+    "agent-primitives": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/ConnorBritain/agent-primitives.git"
+      }
+    },
+    "cairn": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/ConnorBritain/cairn.git"
+      }
+    },
+    "compounder": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/ConnorBritain/compounder.git"
+      }
+    },
+    "elonify": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/ConnorBritain/elonify.git"
+      }
+    },
+    "gestalt": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/ConnorBritain/gestalt.git"
+      }
+    }
+  }
+}
